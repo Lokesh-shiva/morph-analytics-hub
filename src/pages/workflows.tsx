@@ -1,12 +1,14 @@
 
+import { useState } from "react";
 import { Play, Pause, Plus, Settings } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { WorkflowTimeline } from "@/components/workflow/workflow-timeline";
+import { WorkflowModal } from "@/components/workflow/workflow-modal";
 
 export function Workflows() {
-  const workflows = [
+  const [workflows, setWorkflows] = useState([
     {
       id: "1",
       name: "Daily Data Sync",
@@ -31,7 +33,30 @@ export function Workflows() {
       nextRun: "In 30 minutes",
       description: "Monitor system metrics and send alerts"
     },
-  ];
+  ]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleWorkflow = (id: string) => {
+    setWorkflows(prev => prev.map(workflow => 
+      workflow.id === id 
+        ? { 
+            ...workflow, 
+            status: workflow.status === 'running' ? 'stopped' : 'running',
+            nextRun: workflow.status === 'running' ? 'Stopped' : 'In 1 hour'
+          }
+        : workflow
+    ));
+  };
+
+  const openSettings = (id: string) => {
+    console.log('Opening settings for workflow:', id);
+    // Implement settings modal here
+  };
+
+  const addWorkflow = (newWorkflow: any) => {
+    setWorkflows(prev => [...prev, newWorkflow]);
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -44,7 +69,7 @@ export function Workflows() {
           <p className="text-white/60">Automate your data processing pipelines</p>
         </div>
         
-        <Button className="glass-button">
+        <Button className="glass-button" onClick={() => setIsModalOpen(true)}>
           <Plus className="h-4 w-4 mr-2" />
           New Workflow
         </Button>
@@ -60,16 +85,30 @@ export function Workflows() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className={`w-3 h-3 rounded-full ${
-                    workflow.status === 'running' ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'
+                    workflow.status === 'running' ? 'bg-green-400 animate-pulse' : 
+                    workflow.status === 'scheduled' ? 'bg-yellow-400' : 'bg-gray-400'
                   }`} />
                   <h4 className="font-semibold text-white">{workflow.name}</h4>
                 </div>
                 
                 <div className="flex space-x-2">
-                  <Button size="sm" variant="ghost" className="hover:bg-white/10">
-                    {workflow.status === 'running' ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    className="hover:bg-white/10"
+                    onClick={() => toggleWorkflow(workflow.id)}
+                  >
+                    {workflow.status === 'running' ? 
+                      <Pause className="h-4 w-4" /> : 
+                      <Play className="h-4 w-4" />
+                    }
                   </Button>
-                  <Button size="sm" variant="ghost" className="hover:bg-white/10">
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    className="hover:bg-white/10"
+                    onClick={() => openSettings(workflow.id)}
+                  >
                     <Settings className="h-4 w-4" />
                   </Button>
                 </div>
@@ -94,6 +133,12 @@ export function Workflows() {
         {/* Timeline */}
         <WorkflowTimeline />
       </div>
+
+      <WorkflowModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={addWorkflow}
+      />
     </div>
   );
 }

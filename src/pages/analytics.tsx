@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Calendar, Download, Filter, RefreshCw } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -9,6 +10,51 @@ import { AnalyticsLineChart } from "@/components/charts/line-chart";
 import { AnalyticsBarChart } from "@/components/charts/bar-chart";
 
 export function Analytics() {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [dateRange, setDateRange] = useState("Last 30 days");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    console.log("Refreshing analytics data...");
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsRefreshing(false);
+  };
+
+  const handleExport = () => {
+    console.log("Exporting analytics data...");
+    // Create a simple CSV export
+    const csvData = "Page,Views,Change\n/dashboard,12.4K,+5.2%\n/analytics,8.7K,+3.1%\n/settings,6.2K,-1.4%";
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'analytics-export.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleDateRange = () => {
+    const ranges = ["Last 7 days", "Last 30 days", "Last 90 days", "Last year"];
+    const currentIndex = ranges.indexOf(dateRange);
+    const nextIndex = (currentIndex + 1) % ranges.length;
+    setDateRange(ranges[nextIndex]);
+    console.log("Date range changed to:", ranges[nextIndex]);
+  };
+
+  const handleFilters = () => {
+    const availableFilters = ["Mobile", "Desktop", "Tablet", "Organic", "Paid"];
+    const newFilter = availableFilters[Math.floor(Math.random() * availableFilters.length)];
+    
+    if (activeFilters.includes(newFilter)) {
+      setActiveFilters(prev => prev.filter(f => f !== newFilter));
+    } else {
+      setActiveFilters(prev => [...prev, newFilter]);
+    }
+    console.log("Filters updated:", activeFilters);
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <Header />
@@ -18,22 +64,51 @@ export function Analytics() {
         <div>
           <h2 className="text-xl font-semibold text-white">Advanced Analytics</h2>
           <p className="text-white/60">Deep dive into your data insights</p>
+          {activeFilters.length > 0 && (
+            <div className="flex gap-2 mt-2">
+              {activeFilters.map(filter => (
+                <span key={filter} className="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded">
+                  {filter}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="glass-button">
+        <div className="flex gap-2 flex-wrap">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="glass-button"
+            onClick={handleDateRange}
+          >
             <Calendar className="h-4 w-4 mr-2" />
-            Date Range
+            {dateRange}
           </Button>
-          <Button variant="outline" size="sm" className="glass-button">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="glass-button"
+            onClick={handleFilters}
+          >
             <Filter className="h-4 w-4 mr-2" />
-            Filters
+            Filters ({activeFilters.length})
           </Button>
-          <Button variant="outline" size="sm" className="glass-button">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="glass-button"
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            {isRefreshing ? 'Refreshing...' : 'Refresh'}
           </Button>
-          <Button size="sm" className="glass-button">
+          <Button 
+            size="sm" 
+            className="glass-button"
+            onClick={handleExport}
+          >
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
