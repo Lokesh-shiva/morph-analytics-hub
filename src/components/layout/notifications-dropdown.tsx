@@ -22,7 +22,7 @@ export function NotificationsDropdown() {
       <Button 
         variant="ghost" 
         size="sm" 
-        className="relative hover:bg-white/10"
+        className="relative hover:bg-white/10 text-white"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Bell className="h-5 w-5" />
@@ -40,15 +40,15 @@ export function NotificationsDropdown() {
             onClick={() => setIsOpen(false)}
           />
           <div className="absolute right-0 top-full mt-2 w-80 z-50">
-            <GlassCard className="p-0 max-h-96 overflow-hidden">
+            <GlassCard className="p-0 max-h-96 overflow-hidden shadow-2xl">
               <div className="p-4 border-b border-white/10 flex items-center justify-between">
-                <h3 className="font-semibold text-white">Notifications</h3>
+                <h3 className="font-semibold text-foreground">Notifications</h3>
                 <div className="flex gap-2">
                   <Button 
                     size="sm" 
                     variant="ghost" 
                     onClick={markAllAsRead}
-                    className="text-xs hover:bg-white/10"
+                    className="text-xs hover:bg-white/10 text-foreground"
                   >
                     <Check className="h-3 w-3 mr-1" />
                     Mark all read
@@ -57,7 +57,7 @@ export function NotificationsDropdown() {
                     size="sm" 
                     variant="ghost" 
                     onClick={() => setIsOpen(false)}
-                    className="hover:bg-white/10"
+                    className="hover:bg-white/10 text-foreground"
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -77,9 +77,9 @@ export function NotificationsDropdown() {
                     <div className="flex items-start gap-3">
                       <div className={cn("w-2 h-2 rounded-full mt-2 flex-shrink-0", getTypeColor(notification.type))} />
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-white">{notification.title}</h4>
-                        <p className="text-xs text-white/70 mt-1">{notification.message}</p>
-                        <p className="text-xs text-white/50 mt-2">
+                        <h4 className="text-sm font-medium text-foreground">{notification.title}</h4>
+                        <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
+                        <p className="text-xs text-muted-foreground mt-2">
                           {notification.timestamp.toLocaleTimeString()}
                         </p>
                       </div>

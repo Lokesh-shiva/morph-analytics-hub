@@ -4,45 +4,50 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root[data-theme="light"] {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.75rem;
+  }
+
+  :root[data-theme="dark"] {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-
     --primary: 0 0% 98%;
     --primary-foreground: 240 5.9% 10%;
-
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
-
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-
     --radius: 0.75rem;
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -52,20 +57,54 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-foreground min-h-screen;
+    @apply text-foreground min-h-screen transition-colors duration-300;
+    background: hsl(var(--background));
+  }
+
+  [data-theme="dark"] body {
+    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900;
+    background-attachment: fixed;
+  }
+
+  [data-theme="light"] body {
+    @apply bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50;
     background-attachment: fixed;
   }
 
   .glass-card {
-    @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-2xl;
+    @apply backdrop-blur-md border rounded-2xl shadow-2xl transition-colors duration-300;
+  }
+
+  [data-theme="dark"] .glass-card {
+    @apply bg-white/10 border-white/20;
+  }
+
+  [data-theme="light"] .glass-card {
+    @apply bg-white/80 border-gray-200/50;
   }
 
   .glass-button {
-    @apply backdrop-blur-sm bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl transition-all duration-300 hover:scale-105;
+    @apply backdrop-blur-sm border rounded-xl transition-all duration-300 hover:scale-105;
+  }
+
+  [data-theme="dark"] .glass-button {
+    @apply bg-white/20 hover:bg-white/30 border-white/30 text-white;
+  }
+
+  [data-theme="light"] .glass-button {
+    @apply bg-white/60 hover:bg-white/80 border-gray-300/50 text-gray-800;
   }
 
   .neumorphism {
-    @apply bg-slate-800/50 shadow-[8px_8px_16px_#0f172a,-8px_-8px_16px_#334155] rounded-2xl;
+    @apply rounded-2xl transition-colors duration-300;
+  }
+
+  [data-theme="dark"] .neumorphism {
+    @apply bg-slate-800/50 shadow-[8px_8px_16px_#0f172a,-8px_-8px_16px_#334155];
+  }
+
+  [data-theme="light"] .neumorphism {
+    @apply bg-white/60 shadow-[8px_8px_16px_#e2e8f0,-8px_-8px_16px_#ffffff];
   }
 
   .shimmer {
@@ -73,9 +112,16 @@
   }
 
   .shimmer::after {
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
     content: '';
     animation: glass-shimmer 2s infinite;
+  }
+
+  [data-theme="dark"] .shimmer::after {
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  }
+
+  [data-theme="light"] .shimmer::after {
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-gray-400/20 to-transparent;
   }
 }
 
@@ -84,16 +130,39 @@
   width: 6px;
 }
 
-::-webkit-scrollbar-track {
+[data-theme="dark"] ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb {
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes glass-shimmer {
+  '0%': {
+    transform: 'translateX(-100%)';
+  }
+  '100%': {
+    transform: 'translateX(100%)';
+  }
 }

@@ -26,7 +26,7 @@ export function Sidebar() {
   const SidebarContent = () => (
     <div className="flex h-full flex-col glass-card border-0 rounded-none lg:rounded-2xl m-0 lg:m-4">
       {/* Logo */}
-      <div className="flex h-16 items-center justify-between px-6 border-b border-white/10">
+      <div className="flex h-16 items-center justify-between px-6 border-b border-border">
         <div className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex-shrink-0" />
           {!sidebarCollapsed && (
@@ -40,7 +40,7 @@ export function Sidebar() {
           variant="ghost"
           size="sm"
           onClick={toggleSidebar}
-          className="hover:bg-white/10 flex-shrink-0"
+          className="hover:bg-white/10 flex-shrink-0 text-foreground"
         >
           {sidebarCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
         </Button>
@@ -57,8 +57,8 @@ export function Sidebar() {
               className={cn(
                 "flex items-center space-x-3 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30"
-                  : "text-white/70 hover:text-white hover:bg-white/10",
+                  ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-foreground border border-blue-500/30"
+                  : "text-muted-foreground hover:text-foreground hover:bg-white/10",
                 sidebarCollapsed && "justify-center"
               )}
             >
@@ -70,13 +70,13 @@ export function Sidebar() {
       </nav>
 
       {/* User section */}
-      <div className="border-t border-white/10 p-4">
+      <div className="border-t border-border p-4">
         <div className={cn("flex items-center space-x-3", sidebarCollapsed && "justify-center")}>
           <div className="h-8 w-8 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex-shrink-0" />
           {!sidebarCollapsed && (
             <div className="min-w-0">
-              <p className="text-sm font-medium text-white truncate">John Doe</p>
-              <p className="text-xs text-white/60">Admin</p>
+              <p className="text-sm font-medium text-foreground truncate">John Doe</p>
+              <p className="text-xs text-muted-foreground">Admin</p>
             </div>
           )}
         </div>

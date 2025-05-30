@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { Auth } from "./pages/auth";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            <Route path="/auth" element={<Auth />} />
             <Route path="/" element={<Index />} />
             <Route path="/analytics" element={<Index />} />
             <Route path="/workflows" element={<Index />} />

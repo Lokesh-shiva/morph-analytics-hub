@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Play, Pause, Plus, Settings } from "lucide-react";
+import { Play, Pause, Plus, Settings, Trash2 } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,13 @@ export function Workflows() {
     ));
   };
 
+  const deleteWorkflow = (id: string) => {
+    if (confirm('Are you sure you want to delete this workflow?')) {
+      setWorkflows(prev => prev.filter(workflow => workflow.id !== id));
+      console.log('Deleted workflow:', id);
+    }
+  };
+
   const openSettings = (id: string) => {
     console.log('Opening settings for workflow:', id);
     // Implement settings modal here
@@ -65,8 +72,8 @@ export function Workflows() {
       {/* Workflow Controls */}
       <GlassCard className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-white">Workflow Management</h2>
-          <p className="text-white/60">Automate your data processing pipelines</p>
+          <h2 className="text-xl font-semibold text-foreground">Workflow Management</h2>
+          <p className="text-muted-foreground">Automate your data processing pipelines</p>
         </div>
         
         <Button className="glass-button" onClick={() => setIsModalOpen(true)}>
@@ -78,7 +85,7 @@ export function Workflows() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Workflow List */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Active Workflows</h3>
+          <h3 className="text-lg font-semibold text-foreground">Active Workflows</h3>
           
           {workflows.map((workflow) => (
             <GlassCard key={workflow.id} hover className="transition-all duration-300">
@@ -88,14 +95,14 @@ export function Workflows() {
                     workflow.status === 'running' ? 'bg-green-400 animate-pulse' : 
                     workflow.status === 'scheduled' ? 'bg-yellow-400' : 'bg-gray-400'
                   }`} />
-                  <h4 className="font-semibold text-white">{workflow.name}</h4>
+                  <h4 className="font-semibold text-foreground">{workflow.name}</h4>
                 </div>
                 
                 <div className="flex space-x-2">
                   <Button 
                     size="sm" 
                     variant="ghost" 
-                    className="hover:bg-white/10"
+                    className="hover:bg-white/10 text-foreground"
                     onClick={() => toggleWorkflow(workflow.id)}
                   >
                     {workflow.status === 'running' ? 
@@ -106,24 +113,32 @@ export function Workflows() {
                   <Button 
                     size="sm" 
                     variant="ghost" 
-                    className="hover:bg-white/10"
+                    className="hover:bg-white/10 text-foreground"
                     onClick={() => openSettings(workflow.id)}
                   >
                     <Settings className="h-4 w-4" />
                   </Button>
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    className="hover:bg-red-500/20 text-red-400 hover:text-red-300"
+                    onClick={() => deleteWorkflow(workflow.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
               
-              <p className="text-white/70 text-sm mb-3">{workflow.description}</p>
+              <p className="text-muted-foreground text-sm mb-3">{workflow.description}</p>
               
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="text-white/60">Last Run:</span>
-                  <div className="text-white">{workflow.lastRun}</div>
+                  <span className="text-muted-foreground">Last Run:</span>
+                  <div className="text-foreground">{workflow.lastRun}</div>
                 </div>
                 <div>
-                  <span className="text-white/60">Next Run:</span>
-                  <div className="text-white">{workflow.nextRun}</div>
+                  <span className="text-muted-foreground">Next Run:</span>
+                  <div className="text-foreground">{workflow.nextRun}</div>
                 </div>
               </div>
             </GlassCard>
