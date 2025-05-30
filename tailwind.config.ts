@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'inter': ['Inter', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +65,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				glass: {
+					light: 'rgba(255, 255, 255, 0.25)',
+					medium: 'rgba(255, 255, 255, 0.15)',
+					dark: 'rgba(0, 0, 0, 0.25)',
+				},
+				gradient: {
+					primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+					secondary: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+					accent: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
 				}
+			},
+			backdropBlur: {
+				xs: '2px',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +101,51 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				'glass-shimmer': {
+					'0%': {
+						transform: 'translateX(-100%)',
+					},
+					'100%': {
+						transform: 'translateX(100%)',
+					},
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)',
+					},
+					'50%': {
+						transform: 'translateY(-10px)',
+					},
+				},
+				'pulse-glow': {
+					'0%, 100%': {
+						opacity: '1',
+						transform: 'scale(1)',
+					},
+					'50%': {
+						opacity: '0.8',
+						transform: 'scale(1.05)',
+					},
+				},
+				'slide-up': {
+					'0%': {
+						transform: 'translateY(100%)',
+						opacity: '0',
+					},
+					'100%': {
+						transform: 'translateY(0)',
+						opacity: '1',
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'glass-shimmer': 'glass-shimmer 2s infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+				'slide-up': 'slide-up 0.3s ease-out',
 			}
 		}
 	},

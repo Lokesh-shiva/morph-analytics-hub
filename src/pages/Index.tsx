@@ -1,14 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
+import { useState } from "react";
+import { Dashboard } from "./dashboard";
+import { Analytics } from "./analytics";
+import { Workflows } from "./workflows";
+import { Profile } from "./profile";
+import { Sidebar } from "@/components/layout/sidebar";
+import { useLocation } from "react-router-dom";
+
+export default function Index() {
+  const location = useLocation();
+  
+  const renderContent = () => {
+    switch (location.pathname) {
+      case "/analytics":
+        return <Analytics />;
+      case "/workflows":
+        return <Workflows />;
+      case "/profile":
+        return <Profile />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex w-full">
+      <Sidebar />
+      <main className="flex-1 p-4 md:p-6 overflow-auto">
+        {renderContent()}
+      </main>
     </div>
   );
-};
-
-export default Index;
+}
