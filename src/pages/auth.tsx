@@ -39,7 +39,9 @@ export function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{
+      background: 'linear-gradient(135deg, rgb(15, 23, 42) 0%, rgb(88, 28, 135) 50%, rgb(15, 23, 42) 100%)'
+    }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="h-12 w-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-4" />
@@ -136,7 +138,7 @@ export function Auth() {
 
             <Button
               type="submit"
-              className="w-full glass-button"
+              className="w-full glass-button-primary"
               disabled={isLoading}
             >
               {isLoading ? (

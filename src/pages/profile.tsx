@@ -176,8 +176,8 @@ export function Profile() {
             </div>
             
             <div className="mt-6">
-              <Button 
-                className="glass-button" 
+              <Button
+                className="glass-button-primary"
                 onClick={handleSaveChanges}
                 disabled={isSaving}
               >

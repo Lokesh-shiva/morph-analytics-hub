@@ -76,7 +76,7 @@ export function Workflows() {
           <p className="text-muted-foreground">Automate your data processing pipelines</p>
         </div>
         
-        <Button className="glass-button" onClick={() => setIsModalOpen(true)}>
+        <Button className="glass-button-primary" onClick={() => setIsModalOpen(true)}>
           <Plus className="h-4 w-4 mr-2" />
           New Workflow
         </Button>
@@ -118,11 +118,12 @@ export function Workflows() {
                   >
                     <Settings className="h-4 w-4" />
                   </Button>
-                  <Button 
-                    size="sm" 
-                    variant="ghost" 
-                    className="hover:bg-red-500/20 text-red-400 hover:text-red-300"
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all duration-200 hover:scale-105"
                     onClick={() => deleteWorkflow(workflow.id)}
+                    title="Delete workflow"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

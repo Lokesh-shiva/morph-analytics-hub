@@ -77,38 +77,46 @@ export function Analytics() {
           </div>
           
           <div className="flex gap-2 flex-wrap">
-            <div className="relative">
-              <Button 
-                variant="outline" 
-                size="sm" 
+            <div className="relative group">
+              <Button
+                variant="outline"
+                size="sm"
                 className="glass-button"
-                onClick={() => {
-                  const currentIndex = dateRanges.indexOf(dateRange);
-                  const nextIndex = (currentIndex + 1) % dateRanges.length;
-                  handleDateRange(dateRanges[nextIndex]);
-                }}
               >
                 <Calendar className="h-4 w-4 mr-2" />
                 {dateRange}
               </Button>
+              <div className="absolute top-full left-0 mt-2 w-40 glass-card p-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                {dateRanges.map(range => (
+                  <button
+                    key={range}
+                    onClick={() => handleDateRange(range)}
+                    className={`w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm ${
+                      dateRange === range ? 'bg-primary/20 text-primary border border-primary/30' : 'text-foreground'
+                    }`}
+                  >
+                    {range}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="relative">
-              <Button 
-                variant="outline" 
-                size="sm" 
+            <div className="relative group">
+              <Button
+                variant="outline"
+                size="sm"
                 className="glass-button"
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Filters ({activeFilters.length})
               </Button>
-              <div className="absolute top-full left-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-lg p-2 z-50 hidden group-hover:block">
+              <div className="absolute top-full left-0 mt-2 w-48 glass-card p-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 {availableFilters.map(filter => (
                   <button
                     key={filter}
                     onClick={() => toggleFilter(filter)}
-                    className={`w-full text-left px-3 py-2 rounded hover:bg-accent transition-colors ${
-                      activeFilters.includes(filter) ? 'bg-primary text-primary-foreground' : 'text-foreground'
+                    className={`w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm ${
+                      activeFilters.includes(filter) ? 'bg-primary/20 text-primary border border-primary/30' : 'text-foreground'
                     }`}
                   >
                     {filter}
@@ -127,9 +135,9 @@ export function Analytics() {
               <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
               {isRefreshing ? 'Refreshing...' : 'Refresh'}
             </Button>
-            <Button 
-              size="sm" 
-              className="glass-button"
+            <Button
+              size="sm"
+              className="glass-button-primary"
               onClick={handleExport}
             >
               <Download className="h-4 w-4 mr-2" />

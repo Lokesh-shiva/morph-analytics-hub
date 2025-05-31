@@ -25,7 +25,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen flex w-full">
       <Sidebar />
       <main className={`flex-1 p-4 md:p-6 overflow-auto transition-all duration-300 ${
         sidebarCollapsed ? 'lg:ml-0' : 'lg:ml-0'

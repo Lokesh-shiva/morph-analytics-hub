@@ -44,15 +44,15 @@ export function Header() {
         </form>
 
         {/* Theme Toggle */}
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="hover:bg-white/10 text-foreground p-2"
+        <Button
+          variant="ghost"
+          size="sm"
+          className="glass-button hover:scale-105 transition-all duration-200 p-2"
           onClick={toggleTheme}
         >
-          {theme === 'dark' ? 
-            <Sun className="h-5 w-5 text-yellow-400" /> : 
-            <Moon className="h-5 w-5 text-blue-600" />
+          {theme === 'dark' ?
+            <Sun className="h-5 w-5 text-yellow-400 drop-shadow-lg" /> :
+            <Moon className="h-5 w-5 text-slate-600 drop-shadow-lg" />
           }
         </Button>
 
@@ -60,7 +60,12 @@ export function Header() {
         <NotificationsDropdown />
 
         {/* Profile */}
-        <Button variant="ghost" size="sm" className="hover:bg-white/10 text-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="glass-button hover:scale-105 transition-all duration-200 p-2"
+          onClick={() => window.location.href = '/profile'}
+        >
           <User className="h-5 w-5" />
         </Button>
       </div>

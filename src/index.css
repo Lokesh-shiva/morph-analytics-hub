@@ -11,7 +11,7 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -23,30 +23,30 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --ring: 262 83% 58%;
     --radius: 0.75rem;
   }
 
   :root[data-theme="dark"] {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 240 10% 8%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 240 10% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
+    --border: 240 3.7% 20%;
     --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --ring: 262 83% 58%;
     --radius: 0.75rem;
   }
 }
@@ -84,15 +84,28 @@
   }
 
   .glass-button {
-    @apply backdrop-blur-sm border rounded-xl transition-all duration-300 hover:scale-105;
+    @apply backdrop-blur-sm border rounded-xl transition-all duration-300 hover:scale-105 font-medium;
   }
 
   [data-theme="dark"] .glass-button {
-    @apply bg-white/20 hover:bg-white/30 border-white/30 text-white;
+    @apply bg-white/10 hover:bg-white/20 border-white/20 text-white shadow-lg;
   }
 
   [data-theme="light"] .glass-button {
-    @apply bg-white/60 hover:bg-white/80 border-gray-300/50 text-gray-800;
+    @apply bg-white/70 hover:bg-white/90 border-gray-300/60 text-gray-800 shadow-lg;
+  }
+
+  /* Primary glass button variant */
+  .glass-button-primary {
+    @apply backdrop-blur-sm border rounded-xl transition-all duration-300 hover:scale-105 font-medium;
+  }
+
+  [data-theme="dark"] .glass-button-primary {
+    @apply bg-purple-600/80 hover:bg-purple-600/90 border-purple-500/50 text-white shadow-lg;
+  }
+
+  [data-theme="light"] .glass-button-primary {
+    @apply bg-purple-600/90 hover:bg-purple-600 border-purple-500/60 text-white shadow-lg;
   }
 
   .neumorphism {
@@ -159,10 +172,54 @@
 }
 
 @keyframes glass-shimmer {
-  '0%': {
-    transform: 'translateX(-100%)';
+  0% {
+    transform: translateX(-100%);
   }
-  '100%': {
-    transform: 'translateX(100%)';
+  100% {
+    transform: translateX(100%);
   }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+/* Improved button hover effects */
+.glass-button:hover,
+.glass-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Better focus states */
+.glass-button:focus,
+.glass-button-primary:focus {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Improved notification positioning */
+.notification-dropdown {
+  transform-origin: top right;
+}
+
+/* Better card hover effects */
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .glass-card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
