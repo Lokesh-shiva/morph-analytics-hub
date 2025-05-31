@@ -139,21 +139,39 @@
 
   /* High z-index for dropdowns and overlays */
   .dropdown-overlay {
-    z-index: 99999 !important;
+    z-index: 100000 !important;
   }
 
   .popover-overlay {
-    z-index: 99999 !important;
+    z-index: 100000 !important;
   }
 
   /* Notification dropdown specific styling */
   .notification-dropdown {
-    z-index: 99999 !important;
+    z-index: 100000 !important;
     position: relative;
   }
 
   .notification-dropdown > div:last-child {
+    z-index: 100000 !important;
+  }
+
+  /* Date picker and other dropdowns */
+  .date-picker-dropdown {
     z-index: 99999 !important;
+  }
+
+  .filter-dropdown {
+    z-index: 99999 !important;
+  }
+
+  /* Chart cards should have lower z-index */
+  .chart-card {
+    z-index: 1 !important;
+  }
+
+  .kpi-card {
+    z-index: 1 !important;
   }
 }
 

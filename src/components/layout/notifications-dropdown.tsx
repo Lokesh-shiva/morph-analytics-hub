@@ -18,7 +18,7 @@ export function NotificationsDropdown() {
   };
 
   return (
-    <div className="relative notification-dropdown">
+    <div className="relative notification-dropdown" style={{ zIndex: 100000 }}>
       <Button
         variant="ghost"
         size="sm"
@@ -36,10 +36,14 @@ export function NotificationsDropdown() {
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-[99998]"
+            className="fixed inset-0"
+            style={{ zIndex: 99998 }}
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-2 w-80 z-[99999] max-h-96">
+          <div 
+            className="absolute right-0 top-full mt-2 w-80 max-h-96"
+            style={{ zIndex: 99999 }}
+          >
             <GlassCard className="p-0 max-h-96 overflow-hidden shadow-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border border-border">
               <div className="p-4 border-b border-border flex items-center justify-between">
                 <h3 className="font-semibold text-foreground">Notifications</h3>
