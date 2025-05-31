@@ -1,257 +1,267 @@
 
 import { useState } from "react";
-import { Calendar, Download, Filter, RefreshCw, X } from "lucide-react";
+import { Filter, Download, RotateCcw, Calendar } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
-import { ChartCard } from "@/components/dashboard/chart-card";
-import { AnalyticsAreaChart } from "@/components/charts/area-chart";
-import { AnalyticsLineChart } from "@/components/charts/line-chart";
-import { AnalyticsBarChart } from "@/components/charts/bar-chart";
 import { DatePicker } from "@/components/ui/date-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export function Analytics() {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [dateRange, setDateRange] = useState("Last 30 days");
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
+  const [dateRange, setDateRange] = useState("last7days");
+  const [customStartDate, setCustomStartDate] = useState<Date>();
+  const [customEndDate, setCustomEndDate] = useState<Date>();
+  const [selectedFilters, setSelectedFilters] = useState({
+    source: "all",
+    category: "all",
+    status: "all"
+  });
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  const availableFilters = ["Mobile", "Desktop", "Tablet", "Organic", "Paid", "Social", "Email"];
-  const dateRanges = ["Last 7 days", "Last 30 days", "Last 90 days", "Last year", "Custom"];
-
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
+  const handleRefresh = () => {
     console.log("Refreshing analytics data...");
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsRefreshing(false);
+    // Simulate refresh
   };
 
   const handleExport = () => {
     console.log("Exporting analytics data...");
-    const csvData = "Page,Views,Change\n/dashboard,12.4K,+5.2%\n/analytics,8.7K,+3.1%\n/settings,6.2K,-1.4%";
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'analytics-export.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    // Simulate export functionality
   };
 
-  const handleDateRange = (range: string) => {
-    setDateRange(range);
-    if (range === "Custom") {
-      setShowCustomDatePicker(true);
-    } else {
-      setShowCustomDatePicker(false);
-      setStartDate(undefined);
-      setEndDate(undefined);
-    }
-    console.log("Date range changed to:", range);
+  const handleFilterChange = (filterType: string, value: string) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      [filterType]: value
+    }));
+    console.log(`Filter ${filterType} changed to:`, value);
   };
 
-  const toggleFilter = (filter: string) => {
-    if (activeFilters.includes(filter)) {
-      setActiveFilters(prev => prev.filter(f => f !== filter));
-    } else {
-      setActiveFilters(prev => [...prev, filter]);
-    }
-  };
-
-  const removeFilter = (filter: string) => {
-    setActiveFilters(prev => prev.filter(f => f !== filter));
+  const getActiveFiltersCount = () => {
+    return Object.values(selectedFilters).filter(value => value !== "all").length;
   };
 
   return (
     <div className="space-y-6 animate-fade-in">
       <Header />
       
-      {/* Controls */}
-      <GlassCard className="space-y-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h2 className="text-xl font-semibold text-foreground">Advanced Analytics</h2>
-            <p className="text-muted-foreground">Deep dive into your data insights</p>
-          </div>
-          
-          <div className="flex gap-2 flex-wrap">
-            <div className="relative group">
-              <Button
-                variant="outline"
-                size="sm"
-                className="glass-button"
-              >
-                <Calendar className="h-4 w-4 mr-2" />
-                {dateRange}
-              </Button>
-              <div className="absolute top-full left-0 mt-2 w-40 glass-card p-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                {dateRanges.map(range => (
-                  <button
-                    key={range}
-                    onClick={() => handleDateRange(range)}
-                    className={`w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm ${
-                      dateRange === range ? 'bg-primary/20 text-primary border border-primary/30' : 'text-foreground'
-                    }`}
-                  >
-                    {range}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative group">
-              <Button
-                variant="outline"
-                size="sm"
-                className="glass-button"
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                Filters ({activeFilters.length})
-              </Button>
-              <div className="absolute top-full left-0 mt-2 w-48 glass-card p-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                {availableFilters.map(filter => (
-                  <button
-                    key={filter}
-                    onClick={() => toggleFilter(filter)}
-                    className={`w-full text-left px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-sm ${
-                      activeFilters.includes(filter) ? 'bg-primary/20 text-primary border border-primary/30' : 'text-foreground'
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="glass-button"
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
-              {isRefreshing ? 'Refreshing...' : 'Refresh'}
-            </Button>
-            <Button
-              size="sm"
-              className="glass-button-primary"
-              onClick={handleExport}
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-          </div>
+      {/* Analytics Controls */}
+      <GlassCard className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 className="text-xl font-semibold text-foreground">Analytics Overview</h2>
+          <p className="text-muted-foreground">Track your key performance metrics</p>
         </div>
-
-        {/* Custom Date Range Pickers */}
-        {showCustomDatePicker && (
-          <div className="flex gap-4 items-center">
-            <DatePicker
-              date={startDate}
-              onDateChange={setStartDate}
-              placeholder="Start date"
-              className="w-40"
-            />
-            <span className="text-muted-foreground">to</span>
-            <DatePicker
-              date={endDate}
-              onDateChange={setEndDate}
-              placeholder="End date"
-              className="w-40"
-            />
-          </div>
-        )}
-
-        {/* Active Filters */}
-        {activeFilters.length > 0 && (
-          <div className="flex gap-2 flex-wrap">
-            <span className="text-sm text-muted-foreground">Active filters:</span>
-            {activeFilters.map(filter => (
-              <div key={filter} className="flex items-center gap-1 px-2 py-1 bg-primary/20 text-primary text-xs rounded">
-                {filter}
-                <button
-                  onClick={() => removeFilter(filter)}
-                  className="hover:bg-primary/30 rounded-full p-0.5"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </GlassCard>
-
-      {/* Analytics Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartCard title="Traffic Trends" className="lg:col-span-2">
-          <AnalyticsAreaChart />
-        </ChartCard>
         
-        <ChartCard title="User Behavior">
-          <AnalyticsLineChart />
-        </ChartCard>
-        
-        <ChartCard title="Revenue Analysis">
-          <AnalyticsBarChart />
-        </ChartCard>
-      </div>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Date Range Selector */}
+          <div className="relative">
+            <Select value={dateRange} onValueChange={setDateRange}>
+              <SelectTrigger className="w-40 glass-button">
+                <Calendar className="h-4 w-4 mr-2" />
+                <SelectValue placeholder="Date range" />
+              </SelectTrigger>
+              <SelectContent className="z-[9999] bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg shadow-xl border">
+                <SelectItem value="last7days">Last 7 days</SelectItem>
+                <SelectItem value="last30days">Last 30 days</SelectItem>
+                <SelectItem value="last90days">Last 90 days</SelectItem>
+                <SelectItem value="custom">Custom range</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-      {/* Detailed Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <GlassCard hover>
-          <h4 className="font-semibold text-foreground mb-4">Top Pages</h4>
-          <div className="space-y-3">
-            {[
-              { page: "/dashboard", views: "12.4K", change: "+5.2%" },
-              { page: "/analytics", views: "8.7K", change: "+3.1%" },
-              { page: "/settings", views: "6.2K", change: "-1.4%" },
-            ].map((item, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="text-muted-foreground">{item.page}</span>
-                <div className="text-right">
-                  <div className="text-foreground font-medium">{item.views}</div>
-                  <div className={`text-xs ${item.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
-                    {item.change}
+          {/* Custom Date Range */}
+          {dateRange === "custom" && (
+            <div className="flex items-center gap-2">
+              <DatePicker
+                date={customStartDate}
+                onDateChange={setCustomStartDate}
+                placeholder="Start date"
+                className="w-36"
+              />
+              <span className="text-muted-foreground">to</span>
+              <DatePicker
+                date={customEndDate}
+                onDateChange={setCustomEndDate}
+                placeholder="End date"
+                className="w-36"
+              />
+            </div>
+          )}
+
+          {/* Filters */}
+          <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="relative glass-button">
+                <Filter className="h-4 w-4 mr-2" />
+                Filters
+                {getActiveFiltersCount() > 0 && (
+                  <span className="ml-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">
+                    {getActiveFiltersCount()}
+                  </span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 z-[9999] bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg shadow-xl border" align="end">
+              <div className="space-y-4">
+                <h4 className="font-semibold text-foreground">Filter Analytics</h4>
+                
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">Data Source</label>
+                    <Select value={selectedFilters.source} onValueChange={(value) => handleFilterChange('source', value)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Sources</SelectItem>
+                        <SelectItem value="web">Web Analytics</SelectItem>
+                        <SelectItem value="mobile">Mobile App</SelectItem>
+                        <SelectItem value="api">API Calls</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">Category</label>
+                    <Select value={selectedFilters.category} onValueChange={(value) => handleFilterChange('category', value)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Categories</SelectItem>
+                        <SelectItem value="revenue">Revenue</SelectItem>
+                        <SelectItem value="users">Users</SelectItem>
+                        <SelectItem value="performance">Performance</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">Status</label>
+                    <Select value={selectedFilters.status} onValueChange={(value) => handleFilterChange('status', value)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="active">Active</SelectItem>
+                        <SelectItem value="inactive">Inactive</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
+
+                <div className="flex justify-between pt-2">
+                  <Button variant="outline" size="sm" onClick={() => {
+                    setSelectedFilters({ source: "all", category: "all", status: "all" });
+                  }}>
+                    Clear All
+                  </Button>
+                  <Button size="sm" onClick={() => setIsFiltersOpen(false)}>
+                    Apply Filters
+                  </Button>
+                </div>
               </div>
-            ))}
+            </PopoverContent>
+          </Popover>
+
+          {/* Action Buttons */}
+          <Button variant="outline" className="glass-button" onClick={handleRefresh}>
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
+          
+          <Button className="glass-button-primary" onClick={handleExport}>
+            <Download className="h-4 w-4 mr-2" />
+            Export
+          </Button>
+        </div>
+      </GlassCard>
+
+      {/* Active Filters Display */}
+      {getActiveFiltersCount() > 0 && (
+        <GlassCard className="p-3">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">Active filters:</span>
+            {Object.entries(selectedFilters).map(([key, value]) => 
+              value !== "all" && (
+                <span key={key} className="px-2 py-1 bg-primary/10 text-primary rounded-md capitalize">
+                  {key}: {value}
+                </span>
+              )
+            )}
+          </div>
+        </GlassCard>
+      )}
+
+      {/* Sample Analytics Content */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Sample KPI Cards */}
+        <GlassCard className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-muted-foreground text-sm">Total Revenue</p>
+              <p className="text-2xl font-bold text-foreground">$45,231</p>
+              <p className="text-green-500 text-sm">+12.5% from last month</p>
+            </div>
           </div>
         </GlassCard>
 
-        <GlassCard hover>
-          <h4 className="font-semibold text-foreground mb-4">Traffic Sources</h4>
-          <div className="space-y-3">
-            {[
-              { source: "Organic Search", percentage: "45.2%" },
-              { source: "Direct", percentage: "28.7%" },
-              { source: "Social Media", percentage: "16.1%" },
-              { source: "Email", percentage: "10.0%" },
-            ].map((item, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="text-muted-foreground">{item.source}</span>
-                <span className="text-foreground font-medium">{item.percentage}</span>
-              </div>
-            ))}
+        <GlassCard className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-muted-foreground text-sm">Active Users</p>
+              <p className="text-2xl font-bold text-foreground">2,350</p>
+              <p className="text-green-500 text-sm">+8.3% from last month</p>
+            </div>
           </div>
         </GlassCard>
 
-        <GlassCard hover>
-          <h4 className="font-semibold text-foreground mb-4">Device Types</h4>
-          <div className="space-y-3">
-            {[
-              { device: "Desktop", percentage: "52.3%" },
-              { device: "Mobile", percentage: "38.7%" },
-              { device: "Tablet", percentage: "9.0%" },
-            ].map((item, index) => (
-              <div key={index} className="flex justify-between items-center">
-                <span className="text-muted-foreground">{item.device}</span>
-                <span className="text-foreground font-medium">{item.percentage}</span>
-              </div>
-            ))}
+        <GlassCard className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-muted-foreground text-sm">Conversion Rate</p>
+              <p className="text-2xl font-bold text-foreground">3.2%</p>
+              <p className="text-red-500 text-sm">-2.1% from last month</p>
+            </div>
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-muted-foreground text-sm">Avg. Session</p>
+              <p className="text-2xl font-bold text-foreground">4m 32s</p>
+              <p className="text-green-500 text-sm">+0.8% from last month</p>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+
+      {/* Sample Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <GlassCard className="p-6">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Revenue Trend</h3>
+          <div className="h-64 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg flex items-center justify-center">
+            <p className="text-muted-foreground">Chart placeholder</p>
+          </div>
+        </GlassCard>
+
+        <GlassCard className="p-6">
+          <h3 className="text-lg font-semibold text-foreground mb-4">User Activity</h3>
+          <div className="h-64 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg flex items-center justify-center">
+            <p className="text-muted-foreground">Chart placeholder</p>
           </div>
         </GlassCard>
       </div>

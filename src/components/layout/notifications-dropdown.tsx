@@ -36,11 +36,11 @@ export function NotificationsDropdown() {
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-[9998]"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-2 w-80 z-50 max-h-96">
-            <GlassCard className="p-0 max-h-96 overflow-hidden shadow-2xl">
+          <div className="absolute right-0 top-full mt-2 w-80 z-[9999] max-h-96 dropdown-overlay">
+            <GlassCard className="p-0 max-h-96 overflow-hidden shadow-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg">
               <div className="p-4 border-b border-white/10 flex items-center justify-between">
                 <h3 className="font-semibold text-foreground">Notifications</h3>
                 <div className="flex gap-2">

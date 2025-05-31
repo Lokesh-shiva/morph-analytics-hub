@@ -71,10 +71,15 @@ export function Sidebar() {
 
       {/* User section */}
       <div className="border-t border-border p-4">
-        <div className={cn("flex items-center space-x-3", sidebarCollapsed && "justify-center")}>
-          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex-shrink-0" />
+        <div className={cn(
+          "flex items-center transition-all duration-200",
+          sidebarCollapsed ? "justify-center" : "space-x-3"
+        )}>
+          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex-shrink-0 flex items-center justify-center">
+            <span className="text-white text-sm font-bold">JD</span>
+          </div>
           {!sidebarCollapsed && (
-            <div className="min-w-0">
+            <div className="min-w-0 transition-opacity duration-200">
               <p className="text-sm font-medium text-foreground truncate">John Doe</p>
               <p className="text-xs text-muted-foreground">Admin</p>
             </div>

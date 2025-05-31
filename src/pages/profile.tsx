@@ -36,9 +36,16 @@ export function Profile() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert("Image size should be less than 5MB");
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfileData(prev => ({ ...prev, profileImage: e.target?.result as string }));
+        const result = e.target?.result as string;
+        setProfileData(prev => ({ ...prev, profileImage: result }));
+        console.log("Profile image updated:", result ? "Image loaded" : "No image");
       };
       reader.readAsDataURL(file);
     }

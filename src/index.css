@@ -11,7 +11,7 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 262 83% 58%;
+    --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -23,30 +23,30 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 262 83% 58%;
+    --ring: 240 10% 3.9%;
     --radius: 0.75rem;
   }
 
   :root[data-theme="dark"] {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 8%;
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 8%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 50%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 20%;
+    --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 262 83% 58%;
+    --ring: 240 4.9% 83.9%;
     --radius: 0.75rem;
   }
 }
@@ -80,7 +80,7 @@
   }
 
   [data-theme="light"] .glass-card {
-    @apply bg-white/80 border-gray-200/50;
+    @apply bg-white/90 border-gray-200/50 shadow-xl;
   }
 
   .glass-button {
@@ -88,11 +88,11 @@
   }
 
   [data-theme="dark"] .glass-button {
-    @apply bg-white/10 hover:bg-white/20 border-white/20 text-white shadow-lg;
+    @apply bg-white/20 hover:bg-white/30 border-white/30 text-white shadow-lg;
   }
 
   [data-theme="light"] .glass-button {
-    @apply bg-white/70 hover:bg-white/90 border-gray-300/60 text-gray-800 shadow-lg;
+    @apply bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-900 shadow-md;
   }
 
   /* Primary glass button variant */
@@ -105,7 +105,7 @@
   }
 
   [data-theme="light"] .glass-button-primary {
-    @apply bg-purple-600/90 hover:bg-purple-600 border-purple-500/60 text-white shadow-lg;
+    @apply bg-purple-600 hover:bg-purple-700 border-purple-500 text-white shadow-lg;
   }
 
   .neumorphism {
@@ -135,6 +135,15 @@
 
   [data-theme="light"] .shimmer::after {
     @apply absolute inset-0 bg-gradient-to-r from-transparent via-gray-400/20 to-transparent;
+  }
+
+  /* High z-index for dropdowns and overlays */
+  .dropdown-overlay {
+    z-index: 9999 !important;
+  }
+
+  .popover-overlay {
+    z-index: 9999 !important;
   }
 }
 
