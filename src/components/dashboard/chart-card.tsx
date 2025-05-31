@@ -12,7 +12,7 @@ export function ChartCard({ title, children, className }: ChartCardProps) {
   return (
     <GlassCard hover className={className}>
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-white">{title}</h3>
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       </div>
       <div className="h-80">
         {children}

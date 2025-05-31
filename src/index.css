@@ -139,11 +139,21 @@
 
   /* High z-index for dropdowns and overlays */
   .dropdown-overlay {
-    z-index: 9999 !important;
+    z-index: 99999 !important;
   }
 
   .popover-overlay {
-    z-index: 9999 !important;
+    z-index: 99999 !important;
+  }
+
+  /* Notification dropdown specific styling */
+  .notification-dropdown {
+    z-index: 99999 !important;
+    position: relative;
+  }
+
+  .notification-dropdown > div:last-child {
+    z-index: 99999 !important;
   }
 }
 

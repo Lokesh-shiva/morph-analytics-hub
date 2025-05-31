@@ -18,7 +18,7 @@ export function NotificationsDropdown() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative notification-dropdown">
       <Button
         variant="ghost"
         size="sm"
@@ -36,19 +36,19 @@ export function NotificationsDropdown() {
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-[9998]"
+            className="fixed inset-0 z-[99998]"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-2 w-80 z-[9999] max-h-96 dropdown-overlay">
-            <GlassCard className="p-0 max-h-96 overflow-hidden shadow-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg">
-              <div className="p-4 border-b border-white/10 flex items-center justify-between">
+          <div className="absolute right-0 top-full mt-2 w-80 z-[99999] max-h-96">
+            <GlassCard className="p-0 max-h-96 overflow-hidden shadow-2xl bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border border-border">
+              <div className="p-4 border-b border-border flex items-center justify-between">
                 <h3 className="font-semibold text-foreground">Notifications</h3>
                 <div className="flex gap-2">
                   <Button 
                     size="sm" 
                     variant="ghost" 
                     onClick={markAllAsRead}
-                    className="text-xs hover:bg-white/10 text-foreground"
+                    className="text-xs hover:bg-muted text-foreground"
                   >
                     <Check className="h-3 w-3 mr-1" />
                     Mark all read
@@ -57,7 +57,7 @@ export function NotificationsDropdown() {
                     size="sm" 
                     variant="ghost" 
                     onClick={() => setIsOpen(false)}
-                    className="hover:bg-white/10 text-foreground"
+                    className="hover:bg-muted text-foreground"
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -69,8 +69,8 @@ export function NotificationsDropdown() {
                   <div 
                     key={notification.id}
                     className={cn(
-                      "p-4 border-b border-white/5 cursor-pointer hover:bg-white/5 transition-colors",
-                      !notification.read && "bg-white/5"
+                      "p-4 border-b border-border cursor-pointer hover:bg-muted/50 transition-colors",
+                      !notification.read && "bg-muted/30"
                     )}
                     onClick={() => markAsRead(notification.id)}
                   >

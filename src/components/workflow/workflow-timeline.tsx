@@ -69,27 +69,27 @@ export function WorkflowTimeline() {
 
   return (
     <GlassCard>
-      <h3 className="text-lg font-semibold text-white mb-6">Workflow Progress</h3>
+      <h3 className="text-lg font-semibold text-foreground mb-6">Workflow Progress</h3>
       
       <div className="space-y-6">
         {mockSteps.map((step, index) => (
           <div key={step.id} className="flex items-start space-x-4">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${getStatusColor(step.status)} bg-white/5`}>
+            <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${getStatusColor(step.status)} bg-background/50`}>
               {getStatusIcon(step.status)}
             </div>
             
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-medium text-white">{step.title}</h4>
+                <h4 className="text-sm font-medium text-foreground">{step.title}</h4>
                 {step.timestamp && (
-                  <span className="text-xs text-white/60">{step.timestamp}</span>
+                  <span className="text-xs text-muted-foreground">{step.timestamp}</span>
                 )}
               </div>
-              <p className="text-sm text-white/70 mt-1">{step.description}</p>
+              <p className="text-sm text-muted-foreground mt-1">{step.description}</p>
               
               {step.status === "in-progress" && (
                 <div className="mt-2">
-                  <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-1 bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse w-3/4" />
                   </div>
                 </div>
@@ -97,7 +97,7 @@ export function WorkflowTimeline() {
             </div>
             
             {index < mockSteps.length - 1 && (
-              <div className="absolute left-5 mt-10 w-px h-6 bg-white/20" style={{ marginLeft: '20px' }} />
+              <div className="absolute left-5 mt-10 w-px h-6 bg-border" style={{ marginLeft: '20px' }} />
             )}
           </div>
         ))}

@@ -23,8 +23,8 @@ export function KPICard({ title, value, change, changeType, icon: Icon, trend }:
     <GlassCard hover glow className="relative overflow-hidden">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-white/60">{title}</p>
-          <p className="text-3xl font-bold text-white mt-1">{value}</p>
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className="text-3xl font-bold text-foreground mt-1">{value}</p>
           <p className={`text-sm mt-2 ${changeColor}`}>
             {change}
           </p>
