@@ -1,13 +1,16 @@
 
-import { Search, User, Moon, Sun } from "lucide-react";
+import { Search, User, Moon, Sun, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { GlassCard } from "@/components/ui/glass-card";
 import { NotificationsDropdown } from "./notifications-dropdown";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useState } from "react";
+import { useCursorGlow } from "@/hooks/useCursorGlow";
 
 export function Header() {
+  useCursorGlow();
+  
   const { theme, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -17,6 +20,16 @@ export function Header() {
     if (searchQuery.trim()) {
       console.log("Searching for:", searchQuery);
       // Implement search functionality here
+    }
+  };
+
+  const handleSignOut = () => {
+    if (confirm("Are you sure you want to sign out?")) {
+      console.log("Signing out...");
+      // Clear any stored user data
+      localStorage.clear();
+      // Redirect to login
+      window.location.href = '/login';
     }
   };
 
@@ -67,6 +80,16 @@ export function Header() {
           onClick={() => window.location.href = '/profile'}
         >
           <User className="h-5 w-5" />
+        </Button>
+
+        {/* Sign Out */}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="glass-button hover:scale-105 transition-all duration-200 p-2 text-red-400 hover:text-red-300"
+          onClick={handleSignOut}
+        >
+          <LogOut className="h-5 w-5" />
         </Button>
       </div>
     </GlassCard>

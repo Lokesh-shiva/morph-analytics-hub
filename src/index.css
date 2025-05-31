@@ -54,6 +54,7 @@
 @layer base {
   * {
     @apply border-border font-inter;
+    cursor: none;
   }
 
   body {
@@ -69,6 +70,28 @@
   [data-theme="light"] body {
     @apply bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50;
     background-attachment: fixed;
+  }
+
+  /* Custom cursor with glow effect */
+  .cursor-glow {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 300000;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease-out;
+  }
+
+  [data-theme="dark"] .cursor-glow {
+    background: radial-gradient(circle, rgba(147, 51, 234, 0.8) 0%, rgba(79, 70, 229, 0.6) 50%, transparent 70%);
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.5), 0 0 40px rgba(79, 70, 229, 0.3);
+  }
+
+  [data-theme="light"] .cursor-glow {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, rgba(147, 51, 234, 0.6) 50%, transparent 70%);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(147, 51, 234, 0.3);
   }
 
   .glass-card {
@@ -139,30 +162,11 @@
 
   /* High z-index for dropdowns and overlays */
   .dropdown-overlay {
-    z-index: 100000 !important;
+    z-index: 200000 !important;
   }
 
   .popover-overlay {
-    z-index: 100000 !important;
-  }
-
-  /* Notification dropdown specific styling */
-  .notification-dropdown {
-    z-index: 100000 !important;
-    position: relative;
-  }
-
-  .notification-dropdown > div:last-child {
-    z-index: 100000 !important;
-  }
-
-  /* Date picker and other dropdowns */
-  .date-picker-dropdown {
-    z-index: 99999 !important;
-  }
-
-  .filter-dropdown {
-    z-index: 99999 !important;
+    z-index: 200000 !important;
   }
 
   /* Chart cards should have lower z-index */
@@ -244,11 +248,6 @@
 .glass-button-primary:focus {
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
-}
-
-/* Improved notification positioning */
-.notification-dropdown {
-  transform-origin: top right;
 }
 
 /* Better card hover effects */
