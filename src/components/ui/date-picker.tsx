@@ -38,13 +38,13 @@ export function DatePicker({
           {date ? format(date, "PPP") : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0 z-[9999] bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg shadow-xl border" align="start">
+      <PopoverContent className="w-auto p-0 z-[99999] bg-white dark:bg-slate-800 backdrop-blur-lg shadow-xl border border-border" align="start">
         <Calendar
           mode="single"
           selected={date}
           onSelect={onDateChange}
           initialFocus
-          className="p-3 pointer-events-auto"
+          className="p-3 pointer-events-auto bg-white dark:bg-slate-800 text-foreground"
         />
       </PopoverContent>
     </Popover>

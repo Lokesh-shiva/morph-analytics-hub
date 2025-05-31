@@ -160,13 +160,17 @@
     @apply absolute inset-0 bg-gradient-to-r from-transparent via-gray-400/20 to-transparent;
   }
 
-  /* High z-index for dropdowns and overlays */
+  /* Enhanced z-index for notifications and dropdowns */
+  .notifications-overlay {
+    z-index: 999999 !important;
+  }
+
   .dropdown-overlay {
-    z-index: 200000 !important;
+    z-index: 99999 !important;
   }
 
   .popover-overlay {
-    z-index: 200000 !important;
+    z-index: 99999 !important;
   }
 
   /* Chart cards should have lower z-index */
@@ -176,6 +180,23 @@
 
   .kpi-card {
     z-index: 1 !important;
+  }
+
+  /* Enhanced dropdown styling for dark mode visibility */
+  [data-theme="dark"] .dropdown-content {
+    @apply bg-slate-800 border-slate-700 text-white;
+  }
+
+  [data-theme="dark"] .dropdown-item {
+    @apply text-white hover:bg-slate-700;
+  }
+
+  [data-theme="light"] .dropdown-content {
+    @apply bg-white border-gray-200 text-gray-900;
+  }
+
+  [data-theme="light"] .dropdown-item {
+    @apply text-gray-900 hover:bg-gray-100;
   }
 }
 

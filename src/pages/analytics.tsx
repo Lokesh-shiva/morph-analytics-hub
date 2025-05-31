@@ -64,13 +64,13 @@ export function Analytics() {
         
         <div className="flex flex-wrap items-center gap-3">
           {/* Date Range Selector */}
-          <div className="relative">
+          <div className="relative" style={{ zIndex: 50000 }}>
             <Select value={dateRange} onValueChange={setDateRange}>
               <SelectTrigger className="w-40 glass-button">
                 <Calendar className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Date range" />
               </SelectTrigger>
-              <SelectContent className="z-[9999] bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg shadow-xl border">
+              <SelectContent className="z-[99999] bg-white dark:bg-slate-800 backdrop-blur-lg shadow-xl border border-border">
                 <SelectItem value="last7days">Last 7 days</SelectItem>
                 <SelectItem value="last30days">Last 30 days</SelectItem>
                 <SelectItem value="last90days">Last 90 days</SelectItem>
@@ -81,7 +81,7 @@ export function Analytics() {
 
           {/* Custom Date Range */}
           {dateRange === "custom" && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" style={{ zIndex: 50000 }}>
               <DatePicker
                 date={customStartDate}
                 onDateChange={setCustomStartDate}
@@ -99,82 +99,84 @@ export function Analytics() {
           )}
 
           {/* Filters */}
-          <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="relative glass-button">
-                <Filter className="h-4 w-4 mr-2" />
-                Filters
-                {getActiveFiltersCount() > 0 && (
-                  <span className="ml-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">
-                    {getActiveFiltersCount()}
-                  </span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80 z-[9999] bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg shadow-xl border" align="end">
-              <div className="space-y-4">
-                <h4 className="font-semibold text-foreground">Filter Analytics</h4>
-                
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">Data Source</label>
-                    <Select value={selectedFilters.source} onValueChange={(value) => handleFilterChange('source', value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Sources</SelectItem>
-                        <SelectItem value="web">Web Analytics</SelectItem>
-                        <SelectItem value="mobile">Mobile App</SelectItem>
-                        <SelectItem value="api">API Calls</SelectItem>
-                      </SelectContent>
-                    </Select>
+          <div style={{ zIndex: 50000 }}>
+            <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="relative glass-button">
+                  <Filter className="h-4 w-4 mr-2" />
+                  Filters
+                  {getActiveFiltersCount() > 0 && (
+                    <span className="ml-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs rounded-full">
+                      {getActiveFiltersCount()}
+                    </span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 z-[99999] bg-white dark:bg-slate-800 backdrop-blur-lg shadow-xl border border-border" align="end">
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-foreground">Filter Analytics</h4>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-sm font-medium text-foreground mb-2 block">Data Source</label>
+                      <Select value={selectedFilters.source} onValueChange={(value) => handleFilterChange('source', value)}>
+                        <SelectTrigger className="bg-background text-foreground border-border">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="z-[99999] bg-white dark:bg-slate-800 border border-border">
+                          <SelectItem value="all" className="text-foreground hover:bg-muted">All Sources</SelectItem>
+                          <SelectItem value="web" className="text-foreground hover:bg-muted">Web Analytics</SelectItem>
+                          <SelectItem value="mobile" className="text-foreground hover:bg-muted">Mobile App</SelectItem>
+                          <SelectItem value="api" className="text-foreground hover:bg-muted">API Calls</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-foreground mb-2 block">Category</label>
+                      <Select value={selectedFilters.category} onValueChange={(value) => handleFilterChange('category', value)}>
+                        <SelectTrigger className="bg-background text-foreground border-border">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="z-[99999] bg-white dark:bg-slate-800 border border-border">
+                          <SelectItem value="all" className="text-foreground hover:bg-muted">All Categories</SelectItem>
+                          <SelectItem value="revenue" className="text-foreground hover:bg-muted">Revenue</SelectItem>
+                          <SelectItem value="users" className="text-foreground hover:bg-muted">Users</SelectItem>
+                          <SelectItem value="performance" className="text-foreground hover:bg-muted">Performance</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-foreground mb-2 block">Status</label>
+                      <Select value={selectedFilters.status} onValueChange={(value) => handleFilterChange('status', value)}>
+                        <SelectTrigger className="bg-background text-foreground border-border">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="z-[99999] bg-white dark:bg-slate-800 border border-border">
+                          <SelectItem value="all" className="text-foreground hover:bg-muted">All Status</SelectItem>
+                          <SelectItem value="active" className="text-foreground hover:bg-muted">Active</SelectItem>
+                          <SelectItem value="inactive" className="text-foreground hover:bg-muted">Inactive</SelectItem>
+                          <SelectItem value="pending" className="text-foreground hover:bg-muted">Pending</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">Category</label>
-                    <Select value={selectedFilters.category} onValueChange={(value) => handleFilterChange('category', value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Categories</SelectItem>
-                        <SelectItem value="revenue">Revenue</SelectItem>
-                        <SelectItem value="users">Users</SelectItem>
-                        <SelectItem value="performance">Performance</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">Status</label>
-                    <Select value={selectedFilters.status} onValueChange={(value) => handleFilterChange('status', value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Status</SelectItem>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="flex justify-between pt-2">
+                    <Button variant="outline" size="sm" onClick={() => {
+                      setSelectedFilters({ source: "all", category: "all", status: "all" });
+                    }}>
+                      Clear All
+                    </Button>
+                    <Button size="sm" onClick={() => setIsFiltersOpen(false)}>
+                      Apply Filters
+                    </Button>
                   </div>
                 </div>
-
-                <div className="flex justify-between pt-2">
-                  <Button variant="outline" size="sm" onClick={() => {
-                    setSelectedFilters({ source: "all", category: "all", status: "all" });
-                  }}>
-                    Clear All
-                  </Button>
-                  <Button size="sm" onClick={() => setIsFiltersOpen(false)}>
-                    Apply Filters
-                  </Button>
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
+              </PopoverContent>
+            </Popover>
+          </div>
 
           {/* Action Buttons */}
           <Button variant="outline" className="glass-button" onClick={handleRefresh}>
